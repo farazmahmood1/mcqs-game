@@ -1,221 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <style type="text/tailwindcss">
-        :root {
-            --lapis-blue: #0d1b2a;
-            --radiant-gold: #ffd700;
-            --emerald-green: #009b7d;
-            --creamy-white: #f5f5f5;
-            --muted-gold: #c9b037;
-            --correct-green: #4CAF50;
-            --incorrect-red: #F44336;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--lapis-blue);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23c9b037' fill-opacity='0.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31l5 20H48l5-20zm-32 25l5 20H16l5-20zM0 5l20-5 5 20-20 5zm75 5l-20-5-5 20 20 5zM21 80l20-5 5 20-20 5zm43-31l-20-5-5 20 20 5z'/%3E%3C/g%3E%3C/svg%3E");
-        }
-        .font-serif {
-            font-family: 'Lora', serif;
-        }
-        .glowing-border {
-            transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
-        }
-        .glowing-border:hover {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            border-color: var(--radiant-gold);
-        }
-        .glow-button:hover {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
-        }
-        .radio-custom:checked {
-            background-color: var(--radiant-gold);
-            border-color: var(--radiant-gold);
-        }
-        .radio-custom:checked::after {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--lapis-blue);
-            transform: translate(3px, 3px);
-        }
-        /* Correct Answer Animations */
-        @keyframes correct-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        .correct {
-            background-color: rgba(76, 175, 80, 0.2);
-            border-color: var(--correct-green) !important;
-            animation: correct-bounce 0.5s ease-out;
-        }
-        /* Incorrect Answer Animations */
-        @keyframes incorrect-shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-        .incorrect {
-            background-color: rgba(244, 67, 54, 0.2);
-            border-color: var(--incorrect-red) !important;
-            animation: incorrect-shake 0.5s ease-out;
-        }
-        /* Timer styles */
-        .timer-low {
-            color: var(--incorrect-red);
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style type="text/tailwindcss">
+    :root {
+      --lapis-blue: #0d1b2a;
+      --radiant-gold: #ffd700;
+      --emerald-green: #009b7d;
+      --creamy-white: #f5f5f5;
+      --muted-gold: #c9b037;
+      --correct-green: #4CAF50;
+      --incorrect-red: #F44336;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--lapis-blue);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23c9b037' fill-opacity='0.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31l5 20H48l5-20zm-32 25l5 20H16l5-20zM0 5l20-5 5 20-20 5zm75 5l-20-5-5 20 20 5zM21 80l20-5 5 20-20 5zm43-31l-20-5-5 20 20 5z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .font-serif { font-family: 'Lora', serif; }
+    .glowing-border { transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out; }
+    .glowing-border:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); border-color: var(--radiant-gold); }
+    .glow-button:hover { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+    .radio-custom:checked { background-color: var(--radiant-gold); border-color: var(--radiant-gold); }
+    .radio-custom:checked::after { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--lapis-blue); transform: translate(3px, 3px); }
+    @keyframes correct-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .correct { background-color: rgba(76, 175, 80, 0.2); border-color: var(--correct-green) !important; animation: correct-bounce 0.5s ease-out; }
+    @keyframes incorrect-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
+    .incorrect { background-color: rgba(244, 67, 54, 0.2); border-color: var(--incorrect-red) !important; animation: incorrect-shake 0.5s ease-out; }
+    .timer-low { color: var(--incorrect-red); animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  </style>
 </head>
 <body class="text-[var(--creamy-white)]">
-<div class="relative flex size-full min-h-screen flex-col overflow-x-hidden">
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--radiant-gold)]/20 px-10 py-4">
-        <div class="flex items-center gap-4">
-            <svg class="h-8 w-8 text-[var(--radiant-gold)]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2ZM12 15.4L6.9 18.52L8.23 12.81L3.91 9.07L9.58 8.6L12 3.33L14.42 8.6L20.09 9.07L15.77 12.81L17.1 18.52L12 15.4Z"></path></svg>
-            <h2 class="font-serif text-2xl font-bold text-white">Ramadan Quiz</h2>
-        </div>
-        <div class="flex flex-1 items-center justify-end gap-8">
-            <nav class="hidden md:flex items-center gap-9">
-                <a class="text-sm font-medium text-white transition-colors hover:text-[var(--radiant-gold)]" href="#">About</a>
-                <a class="text-sm font-medium text-white transition-colors hover:text-[var(--radiant-gold)]" href="#">Contact</a>
-            </nav>
-        </div>
+  <div class="relative flex min-h-screen flex-col overflow-x-hidden">
+    <!-- Header -->
+    <header class="flex items-center justify-between border-b border-[var(--radiant-gold)]/20 px-4 py-3 sm:px-6 lg:px-10">
+      <div class="flex items-center gap-3 sm:gap-4">
+        <svg class="h-7 w-7 sm:h-8 sm:w-8 text-[var(--radiant-gold)]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2ZM12 15.4L6.9 18.52L8.23 12.81L3.91 9.07L9.58 8.6L12 3.33L14.42 8.6L20.09 9.07L15.77 12.81L17.1 18.52L12 15.4Z"></path></svg>
+        <h2 class="font-serif text-xl font-bold text-white sm:text-2xl">Ramadan Quiz</h2>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="text-sm font-medium text-white transition-colors hover:text-[var(--radiant-gold)]" href="#">About</a>
+        <a class="text-sm font-medium text-white transition-colors hover:text-[var(--radiant-gold)]" href="#">Contact</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button id="menu-btn" class="md:hidden inline-flex items-center justify-center rounded-md p-2 ring-1 ring-white/20 hover:bg-white/10" aria-label="Open menu" aria-expanded="false">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
     </header>
-    <main class="flex flex-1 items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
-        <div class="w-full max-w-3xl rounded-2xl bg-[var(--lapis-blue)]/80 shadow-2xl shadow-black/50 backdrop-blur-sm ring-1 ring-[var(--radiant-gold)]/20">
-            <div class="border-b border-[var(--radiant-gold)]/20 p-6 text-center">
-                <h1 class="font-serif text-4xl font-bold text-white">Ramadan Quiz</h1>
-                <p class="mt-2 text-base text-gray-300">
-                    Test your knowledge about Ramadan with this interactive quiz. Each question is designed to deepen your understanding of this holy month.
-                </p>
-            </div>
-            <div class="p-8">
-                <div class="mb-6 flex items-center justify-between">
-                    <p class="text-sm font-semibold uppercase tracking-wider text-[var(--radiant-gold)]">Question 1 of 10</p>
-                    <div id="timer" class="text-lg font-bold">01:00</div>
-                    <div class="h-2.5 w-1/2 rounded-full bg-white/20">
-                        <div class="h-2.5 rounded-full bg-[var(--emerald-green)]" style="width: 10%"></div>
-                    </div>
-                </div>
-                <h2 class="font-serif text-2xl font-bold leading-tight text-white mb-6">
-                    What is the significance of the Night of Power (Laylat al-Qadr) in Ramadan?
-                </h2>
-                <div class="space-y-4" id="options-container">
-                    <label class="glowing-border flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-white/20 bg-white/5 p-4 transition">
-                        <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong"/>
-                        <span class="text-base font-medium text-gray-200">It marks the end of Ramadan.</span>
-                    </label>
-                    <label class="glowing-border flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-white/20 bg-white/5 p-4 transition" data-correct="true">
-                        <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="correct"/>
-                        <span class="text-base font-medium text-gray-200">It is the night when the Quran was first revealed to Prophet Muhammad.</span>
-                    </label>
-                    <label class="glowing-border flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-white/20 bg-white/5 p-4 transition">
-                        <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong"/>
-                        <span class="text-base font-medium text-gray-200">It is the night of the first battle in Islamic history.</span>
-                    </label>
-                    <label class="glowing-border flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-white/20 bg-white/5 p-4 transition">
-                        <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong"/>
-                        <span class="text-base font-medium text-gray-200">It is the night when Muslims celebrate the birth of Prophet Muhammad.</span>
-                    </label>
-                </div>
-                <div class="mt-8 flex justify-center">
-                    <button class="glow-button flex min-w-[120px] items-center justify-center rounded-full bg-[var(--radiant-gold)] px-6 py-3 text-lg font-bold text-[var(--lapis-blue)] transition-all duration-300 hover:scale-105" id="check-btn">
-                        Check
-                    </button>
-                </div>
-            </div>
+
+    <!-- Mobile Nav Panel -->
+    <div id="mobile-nav" class="md:hidden hidden border-b border-[var(--radiant-gold)]/20 bg-black/20 backdrop-blur">
+      <div class="px-4 py-3 space-y-2">
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white/10" href="#">About</a>
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white/10" href="#">Contact</a>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <main class="flex flex-1 items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
+      <div class="w-full max-w-3xl rounded-2xl bg-[var(--lapis-blue)]/80 shadow-2xl shadow-black/50 backdrop-blur-sm ring-1 ring-[var(--radiant-gold)]/20">
+        <div class="border-b border-[var(--radiant-gold)]/20 p-5 text-center sm:p-6">
+          <h1 class="font-serif text-3xl font-bold text-white sm:text-4xl">Ramadan Quiz</h1>
+          <p class="mt-2 text-sm text-gray-300 sm:text-base">Test your knowledge about Ramadan with this interactive quiz. Each question is designed to deepen your understanding of this holy month.</p>
         </div>
+
+        <div class="p-5 sm:p-6 md:p-8">
+          <!-- Top Controls: Question / Timer / Progress -->
+          <div class="mb-6 grid grid-cols-1 items-center gap-4 sm:grid-cols-3">
+            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--radiant-gold)] text-center sm:text-left">Question 1 of 10</p>
+            <div id="timer" class="text-center text-base font-bold sm:text-lg">01:00</div>
+            <div class="h-2.5 w-full rounded-full bg-white/20">
+              <div class="h-2.5 rounded-full bg-[var(--emerald-green)]" style="width: 10%"></div>
+            </div>
+          </div>
+
+          <h2 class="font-serif mb-5 text-xl font-bold leading-tight text-white sm:mb-6 sm:text-2xl">What is the significance of the Night of Power (Laylat al-Qadr) in Ramadan?</h2>
+
+          <div class="space-y-3 sm:space-y-4" id="options-container">
+            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
+              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
+              <span class="text-sm font-medium text-gray-200 sm:text-base">It marks the end of Ramadan.</span>
+            </label>
+
+            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4" data-correct="true">
+              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="correct" />
+              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night when the Quran was first revealed to Prophet Muhammad.</span>
+            </label>
+
+            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
+              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
+              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night of the first battle in Islamic history.</span>
+            </label>
+
+            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
+              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
+              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night when Muslims celebrate the birth of Prophet Muhammad.</span>
+            </label>
+          </div>
+
+          <div class="mt-6 sm:mt-8 flex justify-center">
+            <button id="check-btn" class="glow-button inline-flex w-full max-w-xs items-center justify-center rounded-full bg-[var(--radiant-gold)] px-6 py-3 text-base font-bold text-[var(--lapis-blue)] transition-all duration-300 hover:scale-105 sm:text-lg">Check</button>
+          </div>
+        </div>
+      </div>
     </main>
-</div>
-<script>
+  </div>
+
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const timerElement = document.getElementById('timer');
-        const checkButton = document.getElementById('check-btn');
-        const optionsContainer = document.getElementById('options-container');
-        const radioButtons = document.querySelectorAll('input[name="quiz_option"]');
-        
-        let timeLeft = 60;
-        let timerInterval;
+      const timerElement = document.getElementById('timer');
+      const checkButton = document.getElementById('check-btn');
+      const radioButtons = document.querySelectorAll('input[name="quiz_option"]');
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileNav = document.getElementById('mobile-nav');
 
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      // Mobile Nav Toggle
+      menuBtn?.addEventListener('click', () => {
+        const isHidden = mobileNav.classList.contains('hidden');
+        mobileNav.classList.toggle('hidden');
+        menuBtn.setAttribute('aria-expanded', String(isHidden));
+      });
 
-                if (timeLeft <= 10) {
-                    timerElement.classList.add('timer-low');
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerElement.textContent = "00:00";
-                    checkAnswers();
-                    checkButton.disabled = true;
-                }
-            }, 1000);
-        }
+      let timeLeft = 60;
+      let timerInterval;
 
-        function checkAnswers() {
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+          if (timeLeft <= 10) {
+            timerElement.classList.add('timer-low');
+          }
+
+          if (timeLeft <= 0) {
             clearInterval(timerInterval);
+            timerElement.textContent = '00:00';
+            checkAnswers();
             checkButton.disabled = true;
-            
-            let selectedLabel = null;
-            let isCorrect = false;
+          }
+        }, 1000);
+      }
 
-            radioButtons.forEach(radio => {
-                radio.disabled = true;
-                if (radio.checked) {
-                    selectedLabel = radio.closest('label');
-                    if (selectedLabel.getAttribute('data-correct') === 'true') {
-                        isCorrect = true;
-                    }
-                }
-            });
+      function checkAnswers() {
+        clearInterval(timerInterval);
+        checkButton.disabled = true;
 
-            const correctLabel = document.querySelector('label[data-correct="true"]');
-            
-            if (isCorrect) {
-                if (selectedLabel) {
-                    selectedLabel.classList.add('correct');
-                }
-            } else {
-                if (selectedLabel) {
-                    selectedLabel.classList.add('incorrect');
-                }
-                if (correctLabel) {
-                    correctLabel.classList.add('correct');
-                }
+        let selectedLabel = null;
+        let isCorrect = false;
+
+        radioButtons.forEach(radio => {
+          radio.disabled = true;
+          if (radio.checked) {
+            selectedLabel = radio.closest('label');
+            if (selectedLabel.getAttribute('data-correct') === 'true') {
+              isCorrect = true;
             }
-        }
-
-        checkButton.addEventListener('click', () => {
-            const selectedOption = document.querySelector('input[name="quiz_option"]:checked');
-            if (selectedOption) {
-                checkAnswers();
-            } else {
-                alert('Please select an answer first!');
-            }
+          }
         });
-        
-        startTimer();
+
+        const correctLabel = document.querySelector('label[data-correct="true"]');
+
+        if (isCorrect) {
+          if (selectedLabel) selectedLabel.classList.add('correct');
+        } else {
+          if (selectedLabel) selectedLabel.classList.add('incorrect');
+          if (correctLabel) correctLabel.classList.add('correct');
+        }
+      }
+
+      checkButton.addEventListener('click', () => {
+        const selectedOption = document.querySelector('input[name="quiz_option"]:checked');
+        if (selectedOption) {
+          checkAnswers();
+        } else {
+          alert('Please select an answer first!');
+        }
+      });
+
+      startTimer();
     });
-</script>
+  </script>
 </body>
 </html>
