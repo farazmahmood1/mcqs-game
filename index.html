@@ -15,8 +15,6 @@
       --emerald-green: #009b7d;
       --creamy-white: #f5f5f5;
       --muted-gold: #c9b037;
-      --correct-green: #4CAF50;
-      --incorrect-red: #F44336;
     }
     body {
       font-family: 'Poppins', sans-serif;
@@ -24,17 +22,10 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23c9b037' fill-opacity='0.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31l5 20H48l5-20zm-32 25l5 20H16l5-20zM0 5l20-5 5 20-20 5zm75 5l-20-5-5 20 20 5zM21 80l20-5 5 20-20 5zm43-31l-20-5-5 20 20 5z'/%3E%3C/g%3E%3C/svg%3E");
     }
     .font-serif { font-family: 'Lora', serif; }
-    .glowing-border { transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out; }
-    .glowing-border:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); border-color: var(--radiant-gold); }
-    .glow-button:hover { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+    .glowing-border { transition: box-shadow 0.2s, border-color 0.2s; }
+    .glowing-border:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.35); border-color: var(--radiant-gold); }
     .radio-custom:checked { background-color: var(--radiant-gold); border-color: var(--radiant-gold); }
     .radio-custom:checked::after { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--lapis-blue); transform: translate(3px, 3px); }
-    @keyframes correct-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-    .correct { background-color: rgba(76, 175, 80, 0.2); border-color: var(--correct-green) !important; animation: correct-bounce 0.5s ease-out; }
-    @keyframes incorrect-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
-    .incorrect { background-color: rgba(244, 67, 54, 0.2); border-color: var(--incorrect-red) !important; animation: incorrect-shake 0.5s ease-out; }
-    .timer-low { color: var(--incorrect-red); animation: pulse 1s infinite; }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
   </style>
 </head>
 <body class="text-[var(--creamy-white)]">
@@ -71,126 +62,149 @@
       <div class="w-full max-w-3xl rounded-2xl bg-[var(--lapis-blue)]/80 shadow-2xl shadow-black/50 backdrop-blur-sm ring-1 ring-[var(--radiant-gold)]/20">
         <div class="border-b border-[var(--radiant-gold)]/20 p-5 text-center sm:p-6">
           <h1 class="font-serif text-3xl font-bold text-white sm:text-4xl">Ramadan Quiz</h1>
-          <p class="mt-2 text-sm text-gray-300 sm:text-base">Test your knowledge about Ramadan with this interactive quiz. Each question is designed to deepen your understanding of this holy month.</p>
+          <p class="mt-2 text-sm text-gray-300 sm:text-base">Answer all questions, then submit to see your score. You can go back and change answers anytime before submitting.</p>
         </div>
 
         <div class="p-5 sm:p-6 md:p-8">
-          <!-- Top Controls: Question / Timer / Progress -->
           <div class="mb-6 grid grid-cols-1 items-center gap-4 sm:grid-cols-3">
-            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--radiant-gold)] text-center sm:text-left">Question 1 of 10</p>
-            <div id="timer" class="text-center text-base font-bold sm:text-lg">01:00</div>
-            <div class="h-2.5 w-full rounded-full bg-white/20">
-              <div class="h-2.5 rounded-full bg-[var(--emerald-green)]" style="width: 10%"></div>
+            <p id="q-meta" class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--radiant-gold)] text-center sm:text-left">Question 1 of 10</p>
+            <div class="sm:col-span-2 h-2.5 w-full rounded-full bg-white/20">
+              <div id="progress-bar" class="h-2.5 rounded-full bg-[var(--emerald-green)]" style="width: 10%"></div>
             </div>
           </div>
 
-          <h2 class="font-serif mb-5 text-xl font-bold leading-tight text-white sm:mb-6 sm:text-2xl">What is the significance of the Night of Power (Laylat al-Qadr) in Ramadan?</h2>
+          <h2 id="question" class="font-serif mb-5 text-xl font-bold leading-tight text-white sm:mb-6 sm:text-2xl">Loading...</h2>
 
-          <div class="space-y-3 sm:space-y-4" id="options-container">
-            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
-              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
-              <span class="text-sm font-medium text-gray-200 sm:text-base">It marks the end of Ramadan.</span>
-            </label>
+          <div id="options-container" class="space-y-3 sm:space-y-4"></div>
 
-            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4" data-correct="true">
-              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="correct" />
-              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night when the Quran was first revealed to Prophet Muhammad.</span>
-            </label>
-
-            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
-              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
-              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night of the first battle in Islamic history.</span>
-            </label>
-
-            <label class="glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4">
-              <input class="radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]" name="quiz_option" type="radio" value="wrong" />
-              <span class="text-sm font-medium text-gray-200 sm:text-base">It is the night when Muslims celebrate the birth of Prophet Muhammad.</span>
-            </label>
-          </div>
-
-          <div class="mt-6 sm:mt-8 flex justify-center">
-            <button id="check-btn" class="glow-button inline-flex w-full max-w-xs items-center justify-center rounded-full bg-[var(--radiant-gold)] px-6 py-3 text-base font-bold text-[var(--lapis-blue)] transition-all duration-300 hover:scale-105 sm:text-lg">Check</button>
+          <div class="mt-6 sm:mt-8 flex items-center justify-between gap-3">
+            <button id="prev-btn" class="inline-flex w-full max-w-[10rem] items-center justify-center rounded-full border border-white/30 bg-white/5 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed sm:text-lg" disabled>Previous</button>
+            <div class="ml-auto"></div>
+            <button id="next-btn" class="inline-flex w-full max-w-[10rem] items-center justify-center rounded-full bg-[var(--radiant-gold)] px-6 py-3 text-base font-bold text-[var(--lapis-blue)] transition-all hover:scale-105 sm:text-lg">Next</button>
           </div>
         </div>
       </div>
     </main>
   </div>
 
+  <!-- Submit Modal -->
+  <div id="result-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="absolute inset-0 bg-black/60" aria-hidden="true"></div>
+    <div role="dialog" aria-modal="true" aria-labelledby="result-title" class="relative z-10 w-full max-w-md rounded-2xl bg-gray-700 p-6 shadow-xl ring-1 ring-[var(--radiant-gold)]/30">
+      <h3 id="result-title" class="font-serif text-2xl font-bold text-white">Your Score</h3>
+      <p id="result-body" class="mt-2 text-sm text-gray-200">You scored 0/10.</p>
+      <div class="mt-6 flex justify-end gap-2">
+        <button id="close-modal" class="rounded-full border border-white/30 bg-white/5 px-4 py-2 text-sm font-medium text-white hover:bg-white/10">Close</button>
+        <button id="retry-btn" class="rounded-full bg-[var(--radiant-gold)] px-4 py-2 text-sm font-bold text-[var(--lapis-blue)]">Retry</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const timerElement = document.getElementById('timer');
-      const checkButton = document.getElementById('check-btn');
-      const radioButtons = document.querySelectorAll('input[name="quiz_option"]');
-      const menuBtn = document.getElementById('menu-btn');
-      const mobileNav = document.getElementById('mobile-nav');
+      const qMetaEl = document.getElementById('q-meta');
+      const qTextEl = document.getElementById('question');
+      const optionsContainer = document.getElementById('options-container');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const progressBar = document.getElementById('progress-bar');
 
-      // Mobile Nav Toggle
-      menuBtn?.addEventListener('click', () => {
-        const isHidden = mobileNav.classList.contains('hidden');
-        mobileNav.classList.toggle('hidden');
-        menuBtn.setAttribute('aria-expanded', String(isHidden));
-      });
+      const modal = document.getElementById('result-modal');
+      const closeModalBtn = document.getElementById('close-modal');
+      const retryBtn = document.getElementById('retry-btn');
+      const resultBody = document.getElementById('result-body');
 
-      let timeLeft = 60;
-      let timerInterval;
+      const questions = [
+        { q: 'What is the significance of the Night of Power (Laylat al-Qadr) in Ramadan?', options: ['It marks the end of Ramadan.', 'It is the night when the Quran was first revealed to Prophet Muhammad.', 'It is the night of the first battle in Islamic history.', 'It is the night when Muslims celebrate the birth of Prophet Muhammad.'], correctIndex: 1 },
+        { q: 'What is the Arabic term for fasting observed during Ramadan?', options: ['Zakat', 'Hajj', 'Sawm', 'Salat'], correctIndex: 2 },
+        { q: 'Which meal traditionally breaks the fast at sunset?', options: ['Suhoor', 'Iftar', 'Tahajjud', 'Suhur'], correctIndex: 1 },
+        { q: 'How many days does Ramadan typically last?', options: ['29 or 30 days', '7 days', '40 days', '10 days'], correctIndex: 0 },
+        { q: 'Which lunar month is Ramadan in the Islamic calendar?', options: ['First', 'Ninth', 'Twelfth', 'Fifth'], correctIndex: 1 },
+        { q: 'What is the pre-dawn meal before fasting begins?', options: ['Iftar', 'Suhoor', 'Eid', 'Taraweeh'], correctIndex: 1 },
+        { q: 'What is the special nightly prayer performed during Ramadan?', options: ['Jumu’ah', 'Taraweeh', 'Witr', 'Janazah'], correctIndex: 1 },
+        { q: 'What charity is commonly given at the end of Ramadan to help those in need?', options: ['Zakat al-Fitr', 'Zakat al-Mal', 'Sadaqah Jariyah', 'Kaffarah'], correctIndex: 0 },
+        { q: 'Which festival marks the end of Ramadan?', options: ['Eid al-Adha', 'Mawlid', 'Eid al-Fitr', 'Ashura'], correctIndex: 2 },
+        { q: 'Fasting during Ramadan is obligatory for which group?', options: ['All Muslims with no exceptions', 'Adult Muslims who are healthy and able', 'Only scholars', 'Only leaders'], correctIndex: 1 },
+      ];
 
-      function startTimer() {
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          const minutes = Math.floor(timeLeft / 60);
-          const seconds = timeLeft % 60;
-          timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      let current = 0;
+      const selections = new Array(questions.length).fill(null);
 
-          if (timeLeft <= 10) {
-            timerElement.classList.add('timer-low');
-          }
+      function renderQuestion() {
+        const { q, options } = questions[current];
+        qTextEl.textContent = q;
+        optionsContainer.innerHTML = '';
 
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            timerElement.textContent = '00:00';
-            checkAnswers();
-            checkButton.disabled = true;
-          }
-        }, 1000);
-      }
+        options.forEach((text, idx) => {
+          const label = document.createElement('label');
+          label.className = 'glowing-border flex cursor-pointer items-center gap-3 rounded-xl border border-white/20 bg-white/5 p-3 transition sm:gap-4 sm:p-4';
 
-      function checkAnswers() {
-        clearInterval(timerInterval);
-        checkButton.disabled = true;
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = 'quiz_option';
+          input.value = String(idx);
+          input.className = 'radio-custom h-5 w-5 flex-shrink-0 appearance-none rounded-full border-2 border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-[var(--radiant-gold)] focus:ring-offset-2 focus:ring-offset-[var(--lapis-blue)]';
 
-        let selectedLabel = null;
-        let isCorrect = false;
+          if (selections[current] === idx) input.checked = true;
+          input.addEventListener('change', () => { selections[current] = idx; });
 
-        radioButtons.forEach(radio => {
-          radio.disabled = true;
-          if (radio.checked) {
-            selectedLabel = radio.closest('label');
-            if (selectedLabel.getAttribute('data-correct') === 'true') {
-              isCorrect = true;
-            }
-          }
+          const span = document.createElement('span');
+          span.className = 'text-sm font-medium text-gray-200 sm:text-base';
+          span.textContent = text;
+
+          label.appendChild(input);
+          label.appendChild(span);
+          optionsContainer.appendChild(label);
         });
 
-        const correctLabel = document.querySelector('label[data-correct="true"]');
+        updateHeaderAndButtons();
+      }
 
-        if (isCorrect) {
-          if (selectedLabel) selectedLabel.classList.add('correct');
+      function updateHeaderAndButtons() {
+        qMetaEl.textContent = `Question ${current + 1} of ${questions.length}`;
+        const pct = ((current + 1) / questions.length) * 100;
+        progressBar.style.width = pct + '%';
+        prevBtn.disabled = current === 0;
+        if (current === questions.length - 1) {
+          nextBtn.textContent = 'Submit';
+          nextBtn.setAttribute('data-mode', 'submit');
         } else {
-          if (selectedLabel) selectedLabel.classList.add('incorrect');
-          if (correctLabel) correctLabel.classList.add('correct');
+          nextBtn.textContent = 'Next';
+          nextBtn.setAttribute('data-mode', 'next');
         }
       }
 
-      checkButton.addEventListener('click', () => {
-        const selectedOption = document.querySelector('input[name="quiz_option"]:checked');
-        if (selectedOption) {
-          checkAnswers();
-        } else {
-          alert('Please select an answer first!');
+      function openModal(score) {
+        resultBody.textContent = `You scored ${score} / ${questions.length}.`;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      function computeScore() { return selections.reduce((acc, sel, i) => acc + (sel === questions[i].correctIndex ? 1 : 0), 0); }
+
+      prevBtn.addEventListener('click', () => { if (current > 0) { current--; renderQuestion(); } });
+
+      nextBtn.addEventListener('click', () => {
+        const mode = nextBtn.getAttribute('data-mode') || 'next';
+        if (mode === 'submit') {
+          const score = computeScore();
+          openModal(score);
+        } else if (current < questions.length - 1) {
+          current++;
+          renderQuestion();
         }
       });
 
-      startTimer();
+      closeModalBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      retryBtn.addEventListener('click', () => { current = 0; for (let i = 0; i < selections.length; i++) selections[i] = null; closeModal(); renderQuestion(); });
+
+      renderQuestion();
     });
   </script>
 </body>
